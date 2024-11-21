@@ -1,0 +1,80 @@
+  <%- include('partials/header.ejs', { user: users }) %>
+  <!-- Main navigation container -->
+
+
+
+
+  <% if (messages && messages.success) { %>
+    <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-green-100 dark:text-green-800" role="alert" id="alert">
+      <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+      </svg>
+      <%= messages.success %>
+    </div>
+  <% } %>
+
+
+
+
+
+
+
+    <div class="box" id="heading">
+      <% if (locals.users) { %>
+        
+      
+        <h1>
+        Hi , <%= users.name %> you are in   <%= listTitle %> 
+        </h1>
+        <div class="box">
+          <% listItems.forEach(item => { %>
+          
+        
+            <div class="item">
+              <form action="/delete" method="post">
+                <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">
+              </form>
+      
+              <p id="title<%=item.id%>">
+                <%= item.title %>
+              </p>
+      
+              <form class="edit" action="/edit" method="post">
+                <input type="hidden" name="updatedItemId" value="<%= item.id %>">
+                <input id="input<%=item.id%>" type="text" name="updatedItemTitle" value="<%= item.title %>" autocomplete="off"
+                  autofocus="true" hidden="true" />
+                <button id="done<%=item.id%>" class="edit" type="submit" hidden><img class="icon"
+                    src="/assets/icons/check-solid.svg" alt="tick image"></button>
+              </form>
+              <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><img class="icon"
+                  src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>
+            </div>
+            <% }) %>
+      
+              <form class="item" action="/add" method="post">
+                <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" />
+                <button class="add" type="submit" name="list" value=<%=listTitle %> >+</button>
+              </form>
+        </div>
+      <% } else { %>
+        <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700" style="background-color: #a683e3;">
+          <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Welcome TO Our To Do List App </h5>
+          <p class="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400" style="color: white;">Please create your account and take your space for making some tasks !</p>
+        
+        </div>
+      <% } %>
+    
+    </div>
+    
+    <script>
+      function handler(id) {
+        document.getElementById("title" + id).setAttribute("hidden", true)
+        document.getElementById("edit" + id).setAttribute("hidden", true)
+        document.getElementById("done" + id).removeAttribute("hidden")
+        document.getElementById("input" + id).removeAttribute("hidden")
+      }
+      setTimeout(() => {
+        document.getElementById("alert").style.display = "none"
+      }, 2000);
+    </script>
+    <%- include('partials/footer.ejs'); -%>

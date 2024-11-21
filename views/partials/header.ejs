@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Permalist</title>
+</head>
+<body>
+  <style>
+    html {
+    min-height: 1000px;
+    font-family: "helvetica neue";
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    min-height: 95vh;
+  }
+  main {
+    text-align: center;
+    flex: 1 0 auto;
+  }
+  nav{
+    background-color: #6376c4;
+    background-image: -webkit-linear-gradient(65deg, #a683e3 50%, #a683e3 50%);
+  }
+ 
+  h1 {
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .box {
+    max-width: 400px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+  }
+  
+  #heading {
+    background-color: #a683e3;
+    text-align: center;
+  }
+  form.edit {
+    display: flex;
+  }
+  
+  .item {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  
+  .item:last-child {
+    border-bottom: 0;
+  }
+  
+  input[type="checkbox"] {
+    margin: 20px;
+    margin-left: 0;
+  }
+  
+  p {
+    margin: 0;
+    padding: 20px 0;
+    font-size: 20px;
+    color: #00204a;
+  }
+  
+  form {
+    text-align: center;
+    margin-left: 20px;
+  }
+  
+  button.add {
+    min-height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: #a683e3;
+    color: #fff;
+    font-size: 30px;
+    border-width: 0;
+  }
+  
+  button.edit {
+    margin-left: 0px;
+    margin-right: 20px;
+    border: none;
+    background: none;
+  }
+  
+  .icon {
+    height: 20px;
+  }
+  
+  input[type="text"] {
+    text-align: left;
+    height: 60px;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 200;
+    width: 80%;
+  }
+  
+  input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 0 -3px 0 0 #a683e3;
+  }
+  
+  ::placeholder {
+    color: lightgray;
+    opacity: 1;
+  }
+  
+  footer {
+    flex: 0 0 auto;
+    color: white;
+    text-align: center;
+  }
+  
+  </style>
+  <!-- Main navigation container -->
+  
+  
+
+  <nav class="bg-white border-gray-200">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4" style=" background-color: #6376c4;
+    background-image: -webkit-linear-gradient(65deg, #a683e3 50%, #a683e3 50%);">
+    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse" style=" background-color: #6376c4;
+    background-image: -webkit-linear-gradient(65deg, #a683e3 50%, #a683e3 50%);">
+        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TO DO LIST</span>
+    </a>
+   
+        <!-- Dropdown menu -->
+        <% if (locals.check) { %>
+         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse" style=" background-color: #6376c4;
+    background-image: -webkit-linear-gradient(65deg, #a683e3 50%, #a683e3 50%);">
+        <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-8 h-8 rounded-full" src="/uploads/images/<%= user.imagepath %>" alt="user photo">
+        </button>
+        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+          <div class="px-4 py-3">
+           
+             
+                <span class="block text-sm text-gray-900 dark:text-white"><%= user.name %></span>
+                <span class="block text-sm  text-gray-500 truncate dark:text-gray-400"><%= user.email %></span>
+                
+          
+          </div>
+          <ul class="py-2" aria-labelledby="user-menu-button" style=" background-color: #6376c4;
+    background-image: -webkit-linear-gradient(65deg, #a683e3 50%, #a683e3 50%);">
+           
+            <li>
+              <a href="/profile/<%= user.id %>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+            </li>
+          
+            <li>
+              <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+            </li>
+          </ul>
+        </div>
+        <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+      </button>
+    </div>
+    <% } else { %>
+     
+     
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+      <ul style=" background-color: #6376c4;
+    background-image: -webkit-linear-gradient(65deg, #a683e3 50%, #a683e3 50%);" class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+       
+      
+        <li>
+          <a href="/login" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">login</a>
+        </li>
+        <li>
+          <a href="/register" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">register</a>
+        </li>
+      </ul>
+    </div>
+    <% } %>
+    </div>
+  </nav>
+
+  <main>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+ 
